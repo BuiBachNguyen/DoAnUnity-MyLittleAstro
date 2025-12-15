@@ -112,7 +112,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputValue isJump)
     {
-        jumpPressed = isJump.isPressed;
+        if (isOnGround)
+        {
+            jumpPressed = isJump.isPressed;
+        }
     }
 
 
