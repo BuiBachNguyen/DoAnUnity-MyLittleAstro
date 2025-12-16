@@ -10,7 +10,7 @@ public class FSM : MonoBehaviour
         owner = this.gameObject;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         currentState?.UpdateState(Time.deltaTime);
     }
