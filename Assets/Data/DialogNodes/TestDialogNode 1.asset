@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f8c32ff6832e7419127e0a8272dda6, type: 3}
   m_Name: TestDialogNode 1
   m_EditorClassIdentifier: 
-  character: {fileID: 11400000, guid: 77a2b7ed2c277d747ac7815df971d556, type: 2}
+  character: {fileID: 11400000, guid: f12f44dcf6c52524585a1f83f4e02c26, type: 2}
   dialogueLines:
   - "C\u0169ng c\u0169ng"
   choices: []
