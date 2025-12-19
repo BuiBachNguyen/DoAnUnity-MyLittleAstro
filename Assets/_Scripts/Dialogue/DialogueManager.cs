@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.InputSystem;
+using DG.Tweening;
+
 public class DialogueManager : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -27,7 +29,12 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
 
     [Header("Input System")]
-    public InputActionProperty nextAction; 
+    public InputActionProperty nextAction;
+
+    [Header("DOTween Settings")]
+    public float fadeDuration = 0.5f;
+
+    private CharacterData lastCharacter;
 
     private void OnEnable()
     {
@@ -180,14 +187,37 @@ public class DialogueManager : MonoBehaviour
 
             if (portraitImage != null)
             {
+                if (currentNode.character != lastCharacter)
+                {
+                    portraitImage.DOFade(0, fadeDuration).OnComplete(() =>
+                    {
+                        portraitImage.sprite = currentNode.character.portrait;
+
+                        if (portraitImage.sprite != null)
+                        {
+                            portraitImage.DOFade(1, fadeDuration);
+                        }
+                    });
+                }
+
+                lastCharacter = currentNode.character;
+            }
+            else
+            {
+                portraitImage.color = Color.clear;
                 portraitImage.sprite = currentNode.character.portrait;
-                portraitImage.gameObject.SetActive(currentNode.character.portrait != null);
+
+                if (portraitImage.sprite != null)
+                {
+                    portraitImage.DOFade(1, fadeDuration);
+                }
             }
         }
         else
         {
-            if (nameText != null) nameText.text = "";
-            if (portraitImage != null) portraitImage.gameObject.SetActive(false);
+            portraitImage.DOFade(0, fadeDuration);
+            nameText.text = "";
+            lastCharacter = null;
         }
     }
 
@@ -202,5 +232,7 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         dialoguePanel.SetActive(false);
+        portraitImage.DOKill();
+        lastCharacter = null;
     }
 }
