@@ -1,38 +1,41 @@
 using UnityEngine;
+using System;
 
 public class Plate : MonoBehaviour
 {
 
-    [SerializeField] Door door;
+    [SerializeField] private bool isHolding;
+    Animator anim;
 
-    [SerializeField] bool isHolding = false;
+    public event Action<bool> OnHoldingChanged;
+    public bool IsHolding => isHolding;
 
 
     private void Awake()
     {
-        
+        anim = GetComponent<Animator>();
     }
-
-    public bool IsHolding
+    private void SetHolding(bool value)
     {
-        get { return isHolding; }
-        set { isHolding = value; }
+        if (isHolding == value) return;
+
+        isHolding = value;
+        anim.SetBool("isPressing", isHolding);
+        OnHoldingChanged?.Invoke(isHolding);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        isHolding = true;
-        door.OnChecking();
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        isHolding = true;
-        door.OnChecking();
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        isHolding = false;
-        door.OnChecking();
+        SetHolding(true);
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        SetHolding(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        SetHolding(false);
+    }
 }

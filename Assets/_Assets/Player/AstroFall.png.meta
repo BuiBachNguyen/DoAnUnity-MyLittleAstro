@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 426798049d7d45448819d0921a43faf0
+guid: d93eb8c7b6b0dbc41b703e098d7eea31
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2132955714459269417
-    second: Astro4_0
+      213: 4228108790394476652
+    second: AstroFall_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Astro4_0
+      name: AstroFall_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 929fbf1ebe7c99d10800000000000000
-      internalID: 2132955714459269417
+      spriteID: c685b2b1b824daa30800000000000000
+      internalID: 4228108790394476652
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Astro4_0: 2132955714459269417
+      AstroFall_0: 4228108790394476652
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

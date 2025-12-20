@@ -1,39 +1,59 @@
-using NUnit.Framework;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] List<Plate> Plates;
-    Collider2D _col;
+    [SerializeField] bool isOpening = false;
+    [SerializeField] private List<Plate> plates = new();
+
+    private Animator anim;
+    private Collider2D col;
 
     private void Awake()
     {
-        _col = GetComponent<Collider2D>();
+        col = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
     }
 
-    void Start()
+    private void OnEnable()
     {
-        if(Plates.Count <= 0)
+        if (plates == null || plates.Count == 0)
         {
-            Debug.Log("Null ref of plates");
+            Debug.LogWarning($"{name}: No plates assigned");
+            return;
+        }
+
+        foreach (var plate in plates)
+        {
+            plate.OnHoldingChanged += OnPlateChanged;
+        }
+
+        CheckDoor();
+    }
+
+    private void OnDisable()
+    {
+        if (plates == null) return;
+
+        foreach (var plate in plates)
+        {
+            plate.OnHoldingChanged -= OnPlateChanged;
         }
     }
 
-    public void OnChecking()
+    private void OnPlateChanged(bool _)
     {
-        foreach (var plate in Plates)
-        {
-            if (plate.IsHolding == true)
-                continue;
-            else
-            {
-                _col.enabled = true;
-                Debug.Log("close");
-                return;
-            }
-        }
-        _col.enabled = false;
-        Debug.Log("open");
+        CheckDoor();
+    }
+
+    private void CheckDoor()
+    {
+        bool allHolding = plates.All(p => p.IsHolding);
+
+        col.enabled = !allHolding;
+        isOpening = allHolding;
+        anim.SetBool("isOpening", isOpening);
+        //Debug.Log(allHolding ? "open" : "close");
     }
 }
