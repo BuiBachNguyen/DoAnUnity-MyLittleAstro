@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
 {
@@ -34,8 +33,13 @@ public class PlayerController : MonoBehaviour
     {
         get { return isOnGround; }
         set { isOnGround = value; }
-    } 
+    }
 
+    public FSM Fsm
+    {
+        get { return _fsm; }
+        set { _fsm = value; }
+    }    
     #endregion
 
     void Awake()
@@ -90,7 +94,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 force = new Vector2(0.0f, jumpForce);
         _rigidbody.AddForce(force, ForceMode2D.Impulse);
-    }    
+    }
 
     private void Flip()
     {
@@ -134,4 +138,5 @@ public class PlayerController : MonoBehaviour
         //    isOnGround = false;
         //}
     }
+
 }

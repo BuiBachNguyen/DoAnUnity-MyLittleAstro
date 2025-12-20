@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2973a080785a6924381e700034d25d3d
+guid: 0e01a82d7ad091549b051d21daceaa73
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8599936377997735589
-    second: Astro7_0
+      213: -1752267539006665560
+    second: PressureButton1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Astro7_0
+      name: PressureButton1_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 3
         y: 0
-        width: 32
-        height: 32
+        width: 26
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5a6b385429c195770800000000000000
-      internalID: 8599936377997735589
+      spriteID: 8ac4f0a05f1bea7e0800000000000000
+      internalID: -1752267539006665560
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Astro7_0: 8599936377997735589
+      PressureButton1_0: -1752267539006665560
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
