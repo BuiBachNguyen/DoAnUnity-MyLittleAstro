@@ -28,7 +28,7 @@ public class StartPanel : MonoBehaviour
 
     void Update()
     {
-        if (Time.time - lastMoveTime < moveCooldown)
+        if (Time.time - lastMoveTime < Time.deltaTime)
             return;
 
         // A , W, up, left
@@ -69,13 +69,17 @@ public class StartPanel : MonoBehaviour
     public void fStart()
     {
         Debug.Log("ST");
+        index = 0;
+        SceneMng.Instance.NextLevel();
     }
     public void fOption()
     {
         Debug.Log("OP");
+        index = 1;
     }
     public void fQuit()
     {
+        index = 2;
         Application.Quit();
     }
 
