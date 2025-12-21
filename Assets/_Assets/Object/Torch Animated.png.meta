@@ -75,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -153,10 +153,10 @@ TextureImporter:
       name: Torch Animated_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 72
-        width: 19
-        height: 47
+        x: 0
+        y: 64
+        width: 60
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,10 +175,10 @@ TextureImporter:
       name: Torch Animated_1
       rect:
         serializedVersion: 2
-        x: 87
-        y: 72
-        width: 19
-        height: 48
+        x: 65
+        y: 64
+        width: 59
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: Torch Animated_2
       rect:
         serializedVersion: 2
-        x: 151
-        y: 72
-        width: 19
-        height: 45
+        x: 130
+        y: 64
+        width: 56
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,10 +219,10 @@ TextureImporter:
       name: Torch Animated_3
       rect:
         serializedVersion: 2
-        x: 214
-        y: 72
-        width: 20
-        height: 49
+        x: 196
+        y: 64
+        width: 52
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,10 +241,10 @@ TextureImporter:
       name: Torch Animated_4
       rect:
         serializedVersion: 2
-        x: 279
-        y: 72
-        width: 14
-        height: 26
+        x: 262
+        y: 64
+        width: 48
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,10 +263,10 @@ TextureImporter:
       name: Torch Animated_5
       rect:
         serializedVersion: 2
-        x: 21
-        y: 8
-        width: 20
-        height: 48
+        x: 0
+        y: 0
+        width: 60
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -285,10 +285,10 @@ TextureImporter:
       name: Torch Animated_6
       rect:
         serializedVersion: 2
-        x: 85
-        y: 8
-        width: 19
-        height: 48
+        x: 65
+        y: 0
+        width: 59
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -307,10 +307,10 @@ TextureImporter:
       name: Torch Animated_7
       rect:
         serializedVersion: 2
-        x: 148
-        y: 8
-        width: 19
-        height: 48
+        x: 130
+        y: 0
+        width: 56
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -329,10 +329,10 @@ TextureImporter:
       name: Torch Animated_8
       rect:
         serializedVersion: 2
-        x: 213
-        y: 8
-        width: 21
-        height: 48
+        x: 197
+        y: 0
+        width: 51
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -351,7 +351,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4f2eb1ec73afc564880ef586a81edfc0
     internalID: 0
     vertices: []
     indices: 
@@ -359,7 +359,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":2.0},"gridSpriteSize":{"x":62.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Torch Animated_0: -3572395160651383561
       Torch Animated_1: -1277135951345145683

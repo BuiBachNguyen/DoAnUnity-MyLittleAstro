@@ -4,7 +4,7 @@ using UnityEngine;
 public class TelePortal : MonoBehaviour
 {
     [SerializeField] TelePortal other;
-    [SerializeField] int dirX = 1, dirY = 0;
+    //[SerializeField] int dirX = 1, dirY = 0;
 
     GameObject player;
     Rigidbody2D rigidPlayer;
