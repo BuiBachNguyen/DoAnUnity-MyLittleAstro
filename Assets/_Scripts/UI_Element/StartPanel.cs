@@ -6,18 +6,17 @@ using UnityEngine.UI;
 
 public class StartPanel : MonoBehaviour
 {
+    [Header("Reference Panel")]
+    [SerializeField] GameObject OptionPanel;
+    [SerializeField] GameObject MainPanel;
     [SerializeField] Image selector;
-    Vector3 offset = new Vector3(250, 0, 0);
 
+    [Header("Buttons")]
     [SerializeField] List<Button> butons;
-    //[SerializeField] Button startBtn;
-    //[SerializeField] Button optionBtn;
-    //[SerializeField] Button quitBtn;
     [SerializeField] int index = 0;   // Start = 0, Option = 1, Quit = 2
     [SerializeField] int maxIndex = 2;
 
-
-    float moveCooldown = 0.2f;
+    [Header("Params")]
     float lastMoveTime;
 
     private void Awake()
@@ -74,8 +73,10 @@ public class StartPanel : MonoBehaviour
     }
     public void fOption()
     {
-        Debug.Log("OP");
         index = 1;
+        if (OptionPanel == null) return;
+
+        SwitchPanel(OptionPanel, MainPanel);
     }
     public void fQuit()
     {
@@ -94,6 +95,17 @@ public class StartPanel : MonoBehaviour
 
         selector.transform.position = butons[index].transform.position;
         
+    }    
+
+    public void ClosePanel()
+    {
+        SwitchPanel(MainPanel, OptionPanel);
+    }    
+
+    void SwitchPanel(GameObject on, GameObject off)
+    {
+        on.SetActive(true);
+        off.SetActive(false);
     }    
 
 }
