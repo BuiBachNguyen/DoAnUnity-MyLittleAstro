@@ -17,7 +17,7 @@ public class RunState : FSMState
         player.HandleMoving();
         player.HandleJump();
 
-        if(player.HandleMoving() == false)
+        if (player.HandleMoving() == false)
         {
             ChangeState(new IdleState());
         }

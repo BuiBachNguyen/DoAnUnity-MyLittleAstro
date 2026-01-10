@@ -14,6 +14,7 @@ public class IdleState : FSMState
 
     public override void UpdateState(float delta)
     {
+        player.HandleClimb();
         player.HandleMoving();
         player.HandleJump();
     }
