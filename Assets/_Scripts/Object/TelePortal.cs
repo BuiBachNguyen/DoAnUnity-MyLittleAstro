@@ -4,11 +4,13 @@ using UnityEngine;
 public class TelePortal : MonoBehaviour
 {
     [SerializeField] TelePortal other;
-    //[SerializeField] int dirX = 1, dirY = 0;
-
     GameObject player;
     Rigidbody2D rigidPlayer;
     Animator animPlayer;
+    public TelePortal Other { 
+        get { return other; } 
+        set { other = value; }
+    }
 
     private void Awake()
     {

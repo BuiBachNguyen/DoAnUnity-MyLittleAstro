@@ -15,18 +15,12 @@ public class IdleWithGunState : FSMState
     public override void UpdateState(float delta)
     {
         player.HandleShootPortal();
-        player.HandleJump();
 
-        //player.HandleMoving();
-        //if (player.HandleMoving() == false)
-        //{
-        //    ChangeState(new IdleState());
-        //}
+        player.HandleJump();
 
         if (player.IsOnGround == false)
         {
             ChangeState(new FallState());
         }
-
     }
 }

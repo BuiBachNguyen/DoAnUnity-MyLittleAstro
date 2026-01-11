@@ -1,6 +1,8 @@
-﻿using Unity.Android.Gradle.Manifest;
+﻿using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using Unity.Jobs;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +25,13 @@ public class PlayerController : MonoBehaviour
     bool isClimbing = false;
     bool isGrabLadder = false; // trigger with ladder
     bool isUpStair = false; //check dirrection
+    // ================== Shooting references ===============
+
+    [SerializeField] GameObject BulletPrefab;
+    [SerializeField] GameObject PortalPrefab;
+    
+    Queue<GameObject> BulletQueue = new Queue<GameObject>();
+    Queue<GameObject> PortalQueue = new Queue<GameObject>();
 
     // ================= value INPUT =================
 
@@ -63,6 +72,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _fsm.ChangeState(new IdleState());
+        if(BulletPrefab == null || PortalPrefab == null)
+        {
+            Debug.LogError("Null Bullet or Portal Prefab at Player");
+        }    
     }
 
     private void Update()
@@ -70,16 +83,40 @@ public class PlayerController : MonoBehaviour
         Debug.Log(_fsm.currentState.ToString());
     }
 
-    // ================= MOVE =================
-
+    // ============== SHOOTING ================
     public bool HandleShootPortal()
     {
         if (inShootPortalMode)
         {
-            if(leftShootClicked)
-            {
+            _fsm.ChangeState(new IdleWithGunState());
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseWorldPos.z = 0f;
 
-            }    
+            Vector2 dir = (mouseWorldPos - transform.position).normalized;
+            if ((dir.x > 0f && !isFacingRight) || (dir.x < 0f && isFacingRight))
+            {
+                {
+                    isFacingRight = !isFacingRight;
+                    Vector3 Oscale = transform.localScale;
+                    Oscale.x = Oscale.x * -1;
+                    transform.localScale = Oscale;
+                }
+            }
+            if (leftShootClicked)
+            {
+                ReturnDefaultShootMode();
+                Debug.Log("LEFT CLICK");
+                ShootPortal(BulletPrefab, PortalPrefab);
+                inShootPortalMode = ! inShootPortalMode;
+            }
+            else if (rightShootClicked)
+            {
+                ReturnDefaultShootMode();
+                Debug.Log("RIGHT CLICK");
+                ShootPortal(BulletPrefab, PortalPrefab);
+                inShootPortalMode = ! inShootPortalMode;
+            } 
+            return true;  
         }
         else
         {
@@ -87,6 +124,51 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+
+    public void ReturnDefaultShootMode()
+    {
+        leftShootClicked = false;
+        rightShootClicked = false;
+    }
+    void ShootPortal(GameObject bulletPrefab, GameObject portalPrefab)
+    {
+        //Clear if >=2. remove to shoot new portal
+        if(BulletQueue.Count >= 2 || PortalQueue.Count >= 2)
+        {
+            while (BulletQueue.Count >= 2)
+                Destroy(BulletQueue.Dequeue());
+            while(PortalQueue.Count >= 2)
+                Destroy(PortalQueue.Dequeue());
+        } 
+        //Calculate
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0f;
+        Vector2 dir = (mouseWorldPos - transform.position).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        //New Bullet, new Portal
+        GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0,0,angle - 90));
+        GameObject portal = Instantiate(portalPrefab);
+        portal.SetActive(false);
+        bullet.GetComponent<Bullet>().SetRef(portal);
+
+        BulletQueue.Enqueue(bullet);
+        PortalQueue.Enqueue(portal);
+
+        if (PortalQueue.Count == 2)
+        {
+            GameObject[] portals = PortalQueue.ToArray();
+
+            portals[0].GetComponent<TelePortal>().Other =
+                portals[1].GetComponent<TelePortal>();
+
+            portals[1].GetComponent<TelePortal>().Other =
+                portals[0].GetComponent<TelePortal>();
+        }
+    }
+
+
+    // ================= MOVEMENT =================
     public bool HandleMoving()
     {
         Flip();
