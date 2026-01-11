@@ -1,4 +1,5 @@
 ﻿using Unity.Android.Gradle.Manifest;
+using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,7 +28,10 @@ public class PlayerController : MonoBehaviour
 
     Vector2 input = new Vector2(0, 0);
     bool jumpPressed = false;
+    bool inShootPortalMode = false;
 
+    bool leftShootClicked = false;
+    bool rightShootClicked = false;
 
     #region Getter-Setter
     public Animator Animator
@@ -67,6 +71,22 @@ public class PlayerController : MonoBehaviour
     }
 
     // ================= MOVE =================
+
+    public bool HandleShootPortal()
+    {
+        if (inShootPortalMode)
+        {
+            if(leftShootClicked)
+            {
+
+            }    
+        }
+        else
+        {
+            _fsm.ChangeState(new IdleState());
+        }
+        return false;
+    }
     public bool HandleMoving()
     {
         Flip();
@@ -156,6 +176,28 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Interacted. IsClimbing = " + isClimbing.ToString());
         }
     }
+
+    public void OnShootPortalMode(InputValue isShootPortalMode)
+    {
+        if (isShootPortalMode.isPressed)
+        {
+            inShootPortalMode = !(inShootPortalMode);
+        }
+    }
+    public void OnShootPortalLeft(InputValue isShootPortalLeft)
+    {
+        if(isShootPortalLeft.isPressed)
+        {
+             leftShootClicked =  true;
+        }    
+    }    
+    public void OnShootPortalRight(InputValue isShootPortalRight)
+    {
+        if(isShootPortalRight.isPressed)
+        {
+            rightShootClicked = true;
+        }    
+    }    
 
     // =========== Collision ================
     private void OnCollisionEnter2D(Collision2D collision)

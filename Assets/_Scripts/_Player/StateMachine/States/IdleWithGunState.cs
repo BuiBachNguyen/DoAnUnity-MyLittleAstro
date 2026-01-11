@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ShootPortalState : FSMState
+public class IdleWithGunState : FSMState
 {
     PlayerController player;
     Rigidbody2D rb;
@@ -14,13 +14,15 @@ public class ShootPortalState : FSMState
 
     public override void UpdateState(float delta)
     {
-        player.HandleMoving();
+        player.HandleShootPortal();
         player.HandleJump();
 
-        if (player.HandleMoving() == false)
-        {
-            ChangeState(new IdleState());
-        }
+        //player.HandleMoving();
+        //if (player.HandleMoving() == false)
+        //{
+        //    ChangeState(new IdleState());
+        //}
+
         if (player.IsOnGround == false)
         {
             ChangeState(new FallState());
