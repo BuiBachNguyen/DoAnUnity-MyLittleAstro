@@ -208,6 +208,7 @@ MonoBehaviour:
   _fsm: {fileID: 1316944076102542945}
   moveSpeed: 5
   jumpForce: 5
+  climbSpeed: 2.5
 --- !u!114 &1951332843037277516
 MonoBehaviour:
   m_ObjectHideFlags: 0
