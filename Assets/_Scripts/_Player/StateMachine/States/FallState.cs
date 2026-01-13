@@ -23,4 +23,8 @@ public class FallState : FSMState
         }    
         
     }
+    public override void Exit()
+    {
+        AudioManager.Instance.PlayPlayerSFX("jump_2");
+    }
 }

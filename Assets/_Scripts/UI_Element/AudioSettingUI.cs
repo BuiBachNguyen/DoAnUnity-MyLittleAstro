@@ -101,7 +101,10 @@ public class AudioSettingsUI : MonoBehaviour
 
         if (value > 0)
         {
-            AudioManager.Instance.PlaySFX(0); 
+            if (AudioManager.Instance.IsSFXEnd())
+            {
+                AudioManager.Instance.PlaySFX(9);
+            }
         }
     }
 

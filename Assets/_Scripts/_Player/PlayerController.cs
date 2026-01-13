@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     bool isGrabLadder = false; // trigger with ladder
     bool isUpStair = false; //check dirrection
     // ================== Shooting references ===============
-
+    [SerializeField] Transform firePoint;
     [SerializeField] GameObject BulletPrefab;
     [SerializeField] GameObject PortalPrefab;
     
@@ -69,7 +69,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _fsm.ChangeState(new IdleState());
-        if(BulletPrefab == null || PortalPrefab == null)
+        if(firePoint == null)
+        {
+            Debug.LogError("Null FirePoint");
+        }    
+        if(BulletPrefab == null || PortalPrefab == null )
         {
             Debug.LogError("Null Bullet or Portal Prefab at Player");
         }    
@@ -103,15 +107,17 @@ public class PlayerController : MonoBehaviour
             {
                 ReturnDefaultShootMode();
                 Debug.Log("LEFT CLICK");
-                ShootPortal(BulletPrefab, PortalPrefab);
+                //ShootPortal(BulletPrefab, PortalPrefab);
                 inShootPortalMode = ! inShootPortalMode;
+                _fsm.ChangeState(new ShootPortalState());
             }
             else if (rightShootClicked)
             {
                 ReturnDefaultShootMode();
                 Debug.Log("RIGHT CLICK");
-                ShootPortal(BulletPrefab, PortalPrefab);
+                //ShootPortal(BulletPrefab, PortalPrefab);
                 inShootPortalMode = ! inShootPortalMode;
+                _fsm.ChangeState(new ShootPortalState());
             } 
             return true;  
         }
@@ -127,7 +133,7 @@ public class PlayerController : MonoBehaviour
         leftShootClicked = false;
         rightShootClicked = false;
     }
-    void ShootPortal(GameObject bulletPrefab, GameObject portalPrefab)
+    public void ShootPortal()  //GameObject bulletPrefab, GameObject portalPrefab)
     {
         //Clear if >=2. remove to shoot new portal
         if(BulletQueue.Count >= 2 || PortalQueue.Count >= 2)
@@ -140,12 +146,15 @@ public class PlayerController : MonoBehaviour
         //Calculate
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0f;
-        Vector2 dir = (mouseWorldPos - transform.position).normalized;
+        Vector2 dir = (mouseWorldPos - firePoint.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
+        AudioManager.Instance.PlayPlayerSFX("lazer");
         //New Bullet, new Portal
-        GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0,0,angle - 90));
-        GameObject portal = Instantiate(portalPrefab);
+        //GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0,0,angle - 90));
+        //GameObject portal = Instantiate(portalPrefab);
+        GameObject bullet = Instantiate(BulletPrefab, firePoint.position, Quaternion.Euler(0,0,angle - 90));
+        GameObject portal = Instantiate(PortalPrefab);
         portal.SetActive(false);
         bullet.GetComponent<Bullet>().SetRef(portal);
 
@@ -173,8 +182,12 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(input.x) >= 0.1f)
         {
             _rigidbody.linearVelocity = new Vector2(input.x * moveSpeed, _rigidbody.linearVelocity.y);
+            if(AudioManager.Instance.IsPlayerSFXEnd() && Mathf.Abs(this._rigidbody.linearVelocityX) >= 0 && _rigidbody.linearVelocityY == 0)
+                AudioManager.Instance.PlayPlayerSFX("footstep2");
             if (isOnGround == true)
+            {
                 _fsm.ChangeState(new RunState());
+            }    
             return true;
         }
         else
@@ -190,6 +203,8 @@ public class PlayerController : MonoBehaviour
         {
             jumpPressed = false;
             isOnGround = false;
+            AudioManager.Instance.PlayPlayerSFX("jump_1");
+
             _fsm.ChangeState(new JumpState());
             return true;
         }
