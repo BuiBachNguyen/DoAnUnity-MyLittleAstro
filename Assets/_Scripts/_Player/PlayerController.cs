@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     bool isFacingRight = true;
     bool isOnGround = true;
     bool isClimbing = false;
+    bool isInteract = false;
     bool isGrabLadder = false; // trigger with ladder
     bool isUpStair = false; //check dirrection
     // ================== Shooting references ===============
@@ -252,11 +253,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputValue isInteract)
     {
+        this.isInteract = isInteract.isPressed;
         if (isInteract.isPressed)
         {
-            isClimbing = isInteract.isPressed && isGrabLadder;
+            isClimbing = this.isInteract && isGrabLadder;
             Debug.Log("Interacted. IsClimbing = " + isClimbing.ToString());
         }
+        Debug.Log(this.isInteract);
     }
 
     public void OnShootPortalMode(InputValue isShootPortalMode)
@@ -264,6 +267,8 @@ public class PlayerController : MonoBehaviour
         if (isShootPortalMode.isPressed)
         {
             inShootPortalMode = !(inShootPortalMode);
+            leftShootClicked = false;
+            rightShootClicked = false;
         }
     }
     public void OnShootPortalLeft(InputValue isShootPortalLeft)
@@ -316,6 +321,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if(collision.gameObject.CompareTag(Tags.Lever))
+        {
+            if(isInteract == true)
+            {
+                Lever lever = collision.gameObject.GetComponent<Lever>();
+                lever.SetActivated(!lever.IsActivated);
+                Debug.Log("lever interacted");
+                isInteract = false;
+            }
+            return;
+        }
+
         if (collision.gameObject.CompareTag(Tags.Ladder))
         {
             Collider2D L_col = collision.gameObject.GetComponent<Collider2D>();
