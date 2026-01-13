@@ -209,6 +209,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 5
   climbSpeed: 2.5
+  BulletPrefab: {fileID: 8101210404369887790, guid: f0fa89802033ef346bb545a1f26cd07a, type: 3}
+  PortalPrefab: {fileID: 7309502205857717804, guid: a08ce6696dbd1584aaff1ff62683b4e9, type: 3}
 --- !u!114 &1951332843037277516
 MonoBehaviour:
   m_ObjectHideFlags: 0

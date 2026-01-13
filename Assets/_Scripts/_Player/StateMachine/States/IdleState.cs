@@ -14,6 +14,10 @@ public class IdleState : FSMState
 
     public override void UpdateState(float delta)
     {
+        if(player.HandleShootPortal() == true)
+        {
+            return;
+        }
         player.HandleClimb();
         player.HandleMoving();
         player.HandleJump();

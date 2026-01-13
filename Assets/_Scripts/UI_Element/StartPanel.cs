@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StartPanel : MonoBehaviour
 {
+    [Header("Contact Refs")]
+    List<string> Contacts = new List<string> {
+        ContactURLs.FaceBook_URL,
+        ContactURLs.Youtube_URL,
+        ContactURLs.GitHub_URL
+    };
+
     [Header("Reference Panel")]
     [SerializeField] GameObject OptionPanel;
     [SerializeField] GameObject MainPanel;
@@ -15,6 +23,8 @@ public class StartPanel : MonoBehaviour
     [SerializeField] List<Button> butons;
     [SerializeField] int index = 0;   // Start = 0, Option = 1, Quit = 2
     [SerializeField] int maxIndex = 2;
+
+    [SerializeField] GameObject transition;
 
     [Header("Params")]
     float lastMoveTime;
@@ -55,21 +65,15 @@ public class StartPanel : MonoBehaviour
 
     void ActivateCurrent()
     {
-        //switch (index)
-        //{
-        //    case 0: startBtn.onClick.Invoke(); break;
-        //    case 1: optionBtn.onClick.Invoke(); break;
-        //    case 2: quitBtn.onClick.Invoke(); break;
-        //}
-
         butons[index].onClick.Invoke();
     }
 
     public void fStart()
     {
-        Debug.Log("ST");
+        //Debug.Log("ST");
         index = 0;
-        SceneMng.Instance.NextLevel();
+        OnTransition();
+        //SceneMng.Instance.NextLevel();
     }
     public void fOption()
     {
@@ -108,6 +112,15 @@ public class StartPanel : MonoBehaviour
         off.SetActive(false);
     }    
 
+    public void LinkedContacts(int index)
+    {
+        Application.OpenURL(Contacts[index]);
+    }    
+
+    public void OnTransition()
+    {
+        transition.SetActive(true);
+    }    
 }
 
 

@@ -16,7 +16,6 @@ public class JumpState : FSMState
     public override void UpdateState(float delta)
     {
         player.HandleMoving();
-        player.HandleShootPortal();
 
         if (rb != null && rb.linearVelocityY <= 0)
         {
