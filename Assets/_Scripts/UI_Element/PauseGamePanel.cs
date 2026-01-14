@@ -7,6 +7,7 @@ public class PauseGamePanel : MonoBehaviour
     [SerializeField] GameObject OptionPanel;
     [SerializeField] GameObject MainPanel;
 
+
     public void PauseGame()
     {
         Time.timeScale = 0.0f;
@@ -23,5 +24,18 @@ public class PauseGamePanel : MonoBehaviour
         on.SetActive(true);
         off.SetActive(false);
     }
-
+    public void SelectLevelButton()
+    {
+        Time.timeScale = 1.0f;
+        SceneMng.Instance.GoToSelectLevel();
+    }    
+    public void StartSceneButton()
+    {
+        Time.timeScale = 1.0f;
+        SceneMng.Instance.BackToStartScene();
+    }
+    public void PlayButtonSound()
+    {
+        AudioManager.Instance.PlaySFX(AudioClipNames.UIButton);
+    }    
 }
