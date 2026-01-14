@@ -104,7 +104,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpening: 0
-  plates: []
+  plates:
+  - {fileID: 0}
 --- !u!50 &2925294190113070072
 Rigidbody2D:
   serializedVersion: 5
@@ -166,17 +167,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.0046718717}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.46875}
+    oldSize: {x: 1.3333334, y: 1.9583334}
     newSize: {x: 1, y: 1.46875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.469338}
+  m_Size: {x: 0.25, y: 1.9}
   m_EdgeRadius: 0
 --- !u!95 &3109209609496433901
 Animator:

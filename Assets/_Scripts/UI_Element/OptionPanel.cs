@@ -15,5 +15,6 @@ public class OptionPanel : MonoBehaviour
     public void OnChangeToggle()
     {
         CRT_effect.SetActive(CRT_toggle.isOn);
+        AudioManager.Instance.PlaySFX(AudioClipNames.UIButton);
     }    
 }

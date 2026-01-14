@@ -22,6 +22,8 @@ public class Lever : MonoBehaviour
         isActivated = value;
         anim.SetBool("isActivated", isActivated);
         OnActivatedChanged?.Invoke(isActivated);
+
+        AudioManager.Instance.PlaySFX(AudioClipNames.Switch);
     }
 
 }

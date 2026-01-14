@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
         Vector2 dir = (mouseWorldPos - firePoint.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        AudioManager.Instance.PlayPlayerSFX("lazer");
+        AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Shoot);
         //New Bullet, new Portal
         //GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0,0,angle - 90));
         //GameObject portal = Instantiate(portalPrefab);
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.linearVelocity = new Vector2(input.x * moveSpeed, _rigidbody.linearVelocity.y);
             if(AudioManager.Instance.IsPlayerSFXEnd() && Mathf.Abs(this._rigidbody.linearVelocityX) >= 0 && _rigidbody.linearVelocityY == 0)
-                AudioManager.Instance.PlayPlayerSFX("footstep2");
+                AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Run);
             if (isOnGround == true)
             {
                 _fsm.ChangeState(new RunState());
@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour
         {
             jumpPressed = false;
             isOnGround = false;
-            AudioManager.Instance.PlayPlayerSFX("jump_1");
+            AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Jump);
 
             _fsm.ChangeState(new JumpState());
             return true;

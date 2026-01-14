@@ -103,7 +103,7 @@ public class AudioSettingsUI : MonoBehaviour
         {
             if (AudioManager.Instance.IsSFXEnd())
             {
-                AudioManager.Instance.PlaySFX(9);
+                AudioManager.Instance.PlaySFX(AudioClipNames.UIButton);
             }
         }
     }

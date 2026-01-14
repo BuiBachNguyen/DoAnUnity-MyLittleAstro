@@ -49,11 +49,14 @@ public class Door : MonoBehaviour
 
     private void CheckDoor()
     {
-        bool allHolding = plates.All(p => p.IsHolding);
 
-        col.enabled = !allHolding;
+        bool allHolding = plates.All(p => p.IsHolding);
+        if (isOpening == allHolding) return;
+
         isOpening = allHolding;
         anim.SetBool("isOpening", isOpening);
+        col.enabled = !allHolding;
         //Debug.Log(allHolding ? "open" : "close");
+        AudioManager.Instance.PlaySFX(AudioClipNames.Door);
     }
 }
