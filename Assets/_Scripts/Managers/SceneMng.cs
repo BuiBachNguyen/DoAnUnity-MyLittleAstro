@@ -26,12 +26,25 @@ public class SceneMng : MonoBehaviour
 
     private void Start()
     {
+        if (ExitTransitionContainer == null)
+            Debug.LogError("Exit Transition is Null");
+        if (EnterTransition == null)
+            Debug.LogError("Enter transition is Null");
+
         ExitTransitionContainer.SetActive(false);
         if(EnterTransition != null)
             EnterTransition.SetActive(true);
         PlayerPrefs.DeleteKey("UnlockedLevel");
     }
 
+    private void FixedUpdate()
+    {
+        // reset level
+        if (Input.GetKeyDown(KeyCode.R)) 
+        {
+            LoadSceneWithIndex(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
     public void BackToStartScene()
     {
         Debug.Log("Load Start Scene" );
@@ -44,7 +57,7 @@ public class SceneMng : MonoBehaviour
         ExitTransition.LevelIndex = 0; // 30 level. 
         ExitTransitionContainer.SetActive(true);
     }
-    public void LeadSceneWithIndex(int index)
+    public void LoadSceneWithIndex(int index)
     {
         Debug.Log("Load with index" + index);
         ExitTransition.LevelIndex = index;

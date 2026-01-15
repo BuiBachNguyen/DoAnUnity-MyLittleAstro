@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     bool isInteract = false;
     bool isGrabLadder = false; // trigger with ladder
     bool isUpStair = false; //check dirrection
+
     // ================== Shooting references ===============
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject BulletPrefab;
@@ -40,6 +41,11 @@ public class PlayerController : MonoBehaviour
     bool rightShootClicked = false;
 
     #region Getter-Setter
+    public ControlConfig Congfig
+    {
+        get { return _config; }
+        set { _config = value; }
+    }    
     public Animator Animator
     {
         get { return _animator; }
@@ -256,6 +262,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputValue isJump)
     {
+        if (_config.EnableJump == false) return;
         if (isOnGround)
         {
             jumpPressed = isJump.isPressed;
@@ -265,7 +272,7 @@ public class PlayerController : MonoBehaviour
     public void OnInteract(InputValue isInteract)
     {
         this.isInteract = isInteract.isPressed;
-        if (isInteract.isPressed)
+        if (isInteract.isPressed && _config.EnableClimb == true)
         {
             isClimbing = this.isInteract && isGrabLadder;
             Debug.Log("Interacted. IsClimbing = " + isClimbing.ToString());
@@ -275,6 +282,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnShootPortalMode(InputValue isShootPortalMode)
     {
+        if(_config.EnableShootMode == false) return;
         if (isShootPortalMode.isPressed)
         {
             inShootPortalMode = !(inShootPortalMode);
@@ -302,7 +310,14 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(Tags.Ground))
         {
-            isOnGround = true;
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    isOnGround = true;
+                    break;
+                }
+            }
         }
     }
 
