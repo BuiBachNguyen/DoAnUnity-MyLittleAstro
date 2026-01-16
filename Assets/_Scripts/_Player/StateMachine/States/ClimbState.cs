@@ -17,7 +17,7 @@ public class ClimbState : FSMState
     {
         player.HandleClimb();
 
-        if (player.IsOnGround == false)
+        if (player.IsGrounded() == false)
         {
             ChangeState(new FallState());
         }

@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 5.0f;
     [SerializeField] float climbSpeed = 10.0f;
     bool isFacingRight = true;
-    bool isOnGround = true;
+    //bool isOnGround = true;
     bool isClimbing = false;
     bool isInteract = false;
     bool isGrabLadder = false; // trigger with ladder
@@ -51,12 +51,6 @@ public class PlayerController : MonoBehaviour
         get { return _animator; }
         set { _animator = value; }
     }
-    public bool IsOnGround
-    {
-        get { return isOnGround; }
-        set { isOnGround = value; }
-    }
-
     public FSM Fsm
     {
         get { return _fsm; }
@@ -88,6 +82,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //Debug.Log(_fsm.currentState.ToString());
+        Debug.Log(IsGrounded());
     }
 
     // ============== SHOOTING ================
@@ -190,7 +185,7 @@ public class PlayerController : MonoBehaviour
             _rigidbody.linearVelocity = new Vector2(input.x * moveSpeed, _rigidbody.linearVelocity.y);
             if(AudioManager.Instance.IsPlayerSFXEnd() && Mathf.Abs(this._rigidbody.linearVelocityX) >= 0 && _rigidbody.linearVelocityY == 0)
                 AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Run);
-            if (isOnGround == true)
+            if (IsGrounded() == true)
             {
                 _fsm.ChangeState(new RunState());
             }    
@@ -205,10 +200,9 @@ public class PlayerController : MonoBehaviour
 
     public bool HandleJump()
     {
-        if (jumpPressed && isOnGround)
+        if (jumpPressed && IsGrounded())
         {
             jumpPressed = false;
-            isOnGround = false;
             AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Jump);
 
             _fsm.ChangeState(new JumpState());
@@ -263,7 +257,7 @@ public class PlayerController : MonoBehaviour
     public void OnJump(InputValue isJump)
     {
         if (_config.EnableJump == false) return;
-        if (isOnGround)
+        if (IsGrounded())
         {
             jumpPressed = isJump.isPressed;
         }
@@ -303,22 +297,48 @@ public class PlayerController : MonoBehaviour
         {
             rightShootClicked = true;
         }    
-    }    
+    }
 
     // =========== Collision ================
+
+    Vector2 boxSize = new Vector2(0.6f, 0.1f);
+    Vector2 boxCenterOffset = Vector2.down * 0.55f;
+
+    public bool IsGrounded()
+    {
+        Vector2 boxCenter = (Vector2)transform.position + boxCenterOffset;
+
+        Collider2D hit = Physics2D.OverlapBox(
+            boxCenter,
+            boxSize,
+            0f
+        );
+        return hit != null;
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(
+            transform.position + Vector3.down * 0.55f,
+            boxSize
+        );
+    }
+
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(Tags.Ground))
-        {
-            foreach (ContactPoint2D contact in collision.contacts)
-            {
-                if (contact.normal.y > 0.5f)
-                {
-                    isOnGround = true;
-                    break;
-                }
-            }
-        }
+        //if (collision.gameObject.CompareTag(Tags.Ground))
+        //{
+        //    foreach (ContactPoint2D contact in collision.contacts)
+        //    {
+        //        if (contact.normal.y > 0.5f)
+        //        {
+        //            isOnGround = true;
+        //            break;
+        //        }
+        //    }
+        //}
     }
 
     private void OnCollisionExit2D(Collision2D collision)

@@ -18,7 +18,7 @@ public class IdleWithGunState : FSMState
 
         player.HandleJump();
 
-        if (player.IsOnGround == false)
+        if (player.IsGrounded() == false)
         {
             ChangeState(new FallState());
         }
