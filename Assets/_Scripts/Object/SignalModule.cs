@@ -1,8 +1,13 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class SignalModule : MonoBehaviour
 {
+    int EmitTimes = 3;
+    float EmitDelay = 1.5f; // secs
+
     bool isActivated = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,12 +18,24 @@ public class SignalModule : MonoBehaviour
             Animator anim = GetComponent<Animator>();
             if (anim == null) return;
             anim.SetTrigger("Triggered");
+            AudioManager.Instance.PlaySFX(AudioClipNames.InitModule);
         }
     }
 
-    void ActivePanel()
+    public void ActivePanel()
     {
-        SceneMng.Instance.NextLevel();
+        StartCoroutine(BeepAndNextLevel());
     }
 
+    public IEnumerator BeepAndNextLevel()
+    {
+        int times = 0;
+        while (times < EmitTimes)
+        {
+            AudioManager.Instance.PlaySFX(AudioClipNames.Emit);
+            yield return new WaitForSeconds(EmitDelay);
+            times += 1;
+        }
+        SceneMng.Instance.NextLevel();
+    }
 }

@@ -11,5 +11,6 @@ public static class AudioClipNames
     public static string JumpPad = "jumppad";
     public static string Door = "metaldoor";
     public static string UIButton = "Cassette-Play";
-
+    public static string InitModule = "InitModule";
+    public static string Emit = "Emit";
 }
