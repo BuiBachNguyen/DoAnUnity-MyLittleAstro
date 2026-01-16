@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_fsm.currentState.ToString());
+        //Debug.Log(_fsm.currentState.ToString());
     }
 
     // ============== SHOOTING ================

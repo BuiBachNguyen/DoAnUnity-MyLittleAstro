@@ -28,33 +28,34 @@ public class SceneMng : MonoBehaviour
     {
         if (ExitTransitionContainer == null)
             Debug.LogError("Exit Transition is Null");
+        else
+            ExitTransitionContainer.SetActive(false);
+
         if (EnterTransition == null)
             Debug.LogError("Enter transition is Null");
-
-        ExitTransitionContainer.SetActive(false);
-        if(EnterTransition != null)
+        else
             EnterTransition.SetActive(true);
-        PlayerPrefs.DeleteKey("UnlockedLevel");
+        //PlayerPrefs.DeleteKey("UnlockedLevel");
     }
 
     private void FixedUpdate()
     {
         // reset level
-        if (Input.GetKeyDown(KeyCode.R)) 
+        if (Input.GetKeyDown(KeyCode.R))
         {
             LoadSceneWithIndex(SceneManager.GetActiveScene().buildIndex);
         }
     }
     public void BackToStartScene()
     {
-        Debug.Log("Load Start Scene" );
+        Debug.Log("Load Start Scene");
         ExitTransition.LevelIndex = 0;
         ExitTransitionContainer.SetActive(true);
-    }    
+    }
     public void GoToSelectLevel()
     {
-        Debug.Log("Load with index" + 31);
-        ExitTransition.LevelIndex = 0; // 30 level. 
+        Debug.Log("Load with index" + 3);
+        ExitTransition.LevelIndex = 3; // 30 level. 
         ExitTransitionContainer.SetActive(true);
     }
     public void LoadSceneWithIndex(int index)
@@ -62,12 +63,13 @@ public class SceneMng : MonoBehaviour
         Debug.Log("Load with index" + index);
         ExitTransition.LevelIndex = index;
         ExitTransitionContainer.SetActive(true);
-    }    
+    }
     public void NextLevel()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        Debug.Log("next of" + SceneManager.GetActiveScene().buildIndex);
-        ExitTransition.LevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("next of" + currentIndex);
+        PlayerPrefs.SetInt("UnlockedLevel", currentIndex + 1);
+        ExitTransition.LevelIndex = currentIndex + 1;
         ExitTransitionContainer.SetActive(true);
     }
 
