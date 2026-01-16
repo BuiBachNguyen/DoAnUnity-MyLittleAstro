@@ -23,7 +23,7 @@ public class SignalModule : MonoBehaviour
     }
 
     public void ActivePanel()
-    {
+    {   
         StartCoroutine(BeepAndNextLevel());
     }
 
