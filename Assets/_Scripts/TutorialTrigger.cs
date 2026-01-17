@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class TutorialTrigger : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class TutorialTrigger : MonoBehaviour
     [SerializeField] float fadeDuration = 0.5f;
     [SerializeField] Vector3 hiddenScale = Vector3.zero;
     [SerializeField] Vector3 shownScale = Vector3.one;
+
+    [SerializeField] VideoPlayer videoPlayer;
 
     Coroutine fadeCoroutine;
 
@@ -35,6 +38,8 @@ public class TutorialTrigger : MonoBehaviour
     {
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
+        if (videoPlayer != null)
+            videoPlayer.time = 0f;
 
         fadeCoroutine = StartCoroutine(FadeAndScale(targetAlpha));
     }

@@ -17,10 +17,10 @@ public class ClimbState : FSMState
     {
         player.HandleClimb();
 
-        if (player.IsGrounded() == false)
-        {
-            ChangeState(new FallState());
-        }
+        //if (player.IsGrounded() == false)
+        //{
+        //    ChangeState(new FallState());
+        //}
 
     }
     public override void Exit()

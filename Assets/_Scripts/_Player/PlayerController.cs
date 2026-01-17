@@ -183,8 +183,10 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(input.x) >= 0.1f)
         {
             _rigidbody.linearVelocity = new Vector2(input.x * moveSpeed, _rigidbody.linearVelocity.y);
-            if(AudioManager.Instance.IsPlayerSFXEnd() && Mathf.Abs(this._rigidbody.linearVelocityX) >= 0 && _rigidbody.linearVelocityY == 0)
+            if (AudioManager.Instance.IsPlayerSFXEnd() && Mathf.Abs(this._rigidbody.linearVelocityX) >= 0 && IsGrounded())
+            {
                 AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Run);
+            }
             if (IsGrounded() == true)
             {
                 _fsm.ChangeState(new RunState());
@@ -302,11 +304,11 @@ public class PlayerController : MonoBehaviour
     // =========== Collision ================
 
     Vector2 boxSize = new Vector2(0.6f, 0.1f);
-    Vector2 boxCenterOffset = Vector2.down * 0.55f;
+    Vector3 boxCenterOffset = Vector3.down * 0.515f;
 
     public bool IsGrounded()
     {
-        Vector2 boxCenter = (Vector2)transform.position + boxCenterOffset;
+        Vector2 boxCenter = (Vector2)transform.position + (Vector2) boxCenterOffset;
 
         Collider2D hit = Physics2D.OverlapBox(
             boxCenter,
@@ -319,7 +321,7 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(
-            transform.position + Vector3.down * 0.55f,
+            transform.position + boxCenterOffset,
             boxSize
         );
     }
