@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.Jobs;
 
 public class LeverDoor : MonoBehaviour
 {
@@ -51,9 +52,12 @@ public class LeverDoor : MonoBehaviour
     {
         bool allActivated = levers.All(p => p.IsActivated);
 
+        if (isOpening == allActivated) return;
+
         col.enabled = !allActivated;
         isOpening = allActivated;
         anim.SetBool("isOpening", isOpening);
         //Debug.Log(allActivated ? "open" : "close");
+        AudioManager.Instance.PlaySFX(AudioClipNames.Door);
     }
 }

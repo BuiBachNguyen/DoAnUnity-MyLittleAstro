@@ -17,10 +17,14 @@ public class FallState : FSMState
         player.HandleJump();
         player.HandleMoving();
 
-        if(player.IsOnGround && player.HandleMoving() == false)
+        if(player.IsGrounded() && player.HandleMoving() == false)
         {
             ChangeState(new IdleState());
         }    
         
+    }
+    public override void Exit()
+    {
+        AudioManager.Instance.PlayPlayerSFX(AudioClipNames.ToLand);
     }
 }

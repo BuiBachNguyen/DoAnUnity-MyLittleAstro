@@ -8,6 +8,8 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     [SerializeField] private AudioSource bgmSource;
     [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource playerSFXSource;
+
 
     [Header("Audio Clips")]
     [SerializeField] private List<AudioClip> bgmClips = new List<AudioClip>();
@@ -64,6 +66,8 @@ public class AudioManager : MonoBehaviour
 
         if (sfxSource != null)
             sfxSource.volume = sfxVolume;
+        if(playerSFXSource != null)
+            playerSFXSource.volume = sfxVolume;
     }
 
     public float GetBGMVolume() => bgmVolume;
@@ -138,7 +142,27 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning($"SFX clip '{clipName}' not found!");
         }
     }
+    public void PlayPlayerSFX(string clipName)
+    {
+        AudioClip clip = sfxClips.Find(c => c.name == clipName);
+        if (clip != null)
+        {
+            playerSFXSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning($"SFX clip '{clipName}' not found!");
+        }
+    }
 
+    public bool IsPlayerSFXEnd()
+    {
+        return !playerSFXSource.isPlaying;
+    }    
+    public bool IsSFXEnd()
+    {
+        return !sfxSource.isPlaying;
+    }    
     public void PlaySFX(int clipIndex)
     {
         if (clipIndex >= 0 && clipIndex < sfxClips.Count)

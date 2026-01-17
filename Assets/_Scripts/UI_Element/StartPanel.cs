@@ -24,7 +24,6 @@ public class StartPanel : MonoBehaviour
     [SerializeField] int index = 0;   // Start = 0, Option = 1, Quit = 2
     [SerializeField] int maxIndex = 2;
 
-    [SerializeField] GameObject transition;
 
     [Header("Params")]
     float lastMoveTime;
@@ -72,14 +71,13 @@ public class StartPanel : MonoBehaviour
     {
         //Debug.Log("ST");
         index = 0;
-        OnTransition();
-        //SceneMng.Instance.NextLevel();
+        SceneMng.Instance.LoadLastLevelUnlocked();
+
     }
     public void fOption()
     {
         index = 1;
         if (OptionPanel == null) return;
-
         SwitchPanel(OptionPanel, MainPanel);
     }
     public void fQuit()
@@ -115,12 +113,12 @@ public class StartPanel : MonoBehaviour
     public void LinkedContacts(int index)
     {
         Application.OpenURL(Contacts[index]);
-    }    
+    }
 
-    public void OnTransition()
+    public void PlayButtonSound()
     {
-        transition.SetActive(true);
-    }    
+        AudioManager.Instance.PlaySFX(AudioClipNames.UIButton);
+    }
 }
 
 

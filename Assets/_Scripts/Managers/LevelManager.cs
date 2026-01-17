@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
     IEnumerator Load(int levelIndex)
     {
         Debug.Log("load " + levelIndex);
-        SceneMng.Instance.LeadSceneWithIndex(levelIndex);
+        SceneMng.Instance.LoadSceneWithIndex(levelIndex);
         yield return new WaitForSeconds(2.0f);
         loadRoutine = null;
     }

@@ -17,13 +17,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 5.0f;
     [SerializeField] float climbSpeed = 10.0f;
     bool isFacingRight = true;
-    bool isOnGround = true;
+    //bool isOnGround = true;
     bool isClimbing = false;
     bool isInteract = false;
     bool isGrabLadder = false; // trigger with ladder
     bool isUpStair = false; //check dirrection
-    // ================== Shooting references ===============
 
+    // ================== Shooting references ===============
+    [SerializeField] Transform firePoint;
     [SerializeField] GameObject BulletPrefab;
     [SerializeField] GameObject PortalPrefab;
     
@@ -40,17 +41,16 @@ public class PlayerController : MonoBehaviour
     bool rightShootClicked = false;
 
     #region Getter-Setter
+    public ControlConfig Congfig
+    {
+        get { return _config; }
+        set { _config = value; }
+    }    
     public Animator Animator
     {
         get { return _animator; }
         set { _animator = value; }
     }
-    public bool IsOnGround
-    {
-        get { return isOnGround; }
-        set { isOnGround = value; }
-    }
-
     public FSM Fsm
     {
         get { return _fsm; }
@@ -69,7 +69,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _fsm.ChangeState(new IdleState());
-        if(BulletPrefab == null || PortalPrefab == null)
+        if(firePoint == null)
+        {
+            Debug.LogError("Null FirePoint");
+        }    
+        if(BulletPrefab == null || PortalPrefab == null )
         {
             Debug.LogError("Null Bullet or Portal Prefab at Player");
         }    
@@ -77,7 +81,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_fsm.currentState.ToString());
+        //Debug.Log(_fsm.currentState.ToString());
+        Debug.Log(IsGrounded());
     }
 
     // ============== SHOOTING ================
@@ -103,15 +108,17 @@ public class PlayerController : MonoBehaviour
             {
                 ReturnDefaultShootMode();
                 Debug.Log("LEFT CLICK");
-                ShootPortal(BulletPrefab, PortalPrefab);
+                //ShootPortal(BulletPrefab, PortalPrefab);
                 inShootPortalMode = ! inShootPortalMode;
+                _fsm.ChangeState(new ShootPortalState());
             }
             else if (rightShootClicked)
             {
                 ReturnDefaultShootMode();
                 Debug.Log("RIGHT CLICK");
-                ShootPortal(BulletPrefab, PortalPrefab);
+                //ShootPortal(BulletPrefab, PortalPrefab);
                 inShootPortalMode = ! inShootPortalMode;
+                _fsm.ChangeState(new ShootPortalState());
             } 
             return true;  
         }
@@ -127,7 +134,7 @@ public class PlayerController : MonoBehaviour
         leftShootClicked = false;
         rightShootClicked = false;
     }
-    void ShootPortal(GameObject bulletPrefab, GameObject portalPrefab)
+    public void ShootPortal()  //GameObject bulletPrefab, GameObject portalPrefab)
     {
         //Clear if >=2. remove to shoot new portal
         if(BulletQueue.Count >= 2 || PortalQueue.Count >= 2)
@@ -140,12 +147,15 @@ public class PlayerController : MonoBehaviour
         //Calculate
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0f;
-        Vector2 dir = (mouseWorldPos - transform.position).normalized;
+        Vector2 dir = (mouseWorldPos - firePoint.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
+        AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Shoot);
         //New Bullet, new Portal
-        GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0,0,angle - 90));
-        GameObject portal = Instantiate(portalPrefab);
+        //GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler(0,0,angle - 90));
+        //GameObject portal = Instantiate(portalPrefab);
+        GameObject bullet = Instantiate(BulletPrefab, firePoint.position, Quaternion.Euler(0,0,angle - 90));
+        GameObject portal = Instantiate(PortalPrefab);
         portal.SetActive(false);
         bullet.GetComponent<Bullet>().SetRef(portal);
 
@@ -173,8 +183,14 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(input.x) >= 0.1f)
         {
             _rigidbody.linearVelocity = new Vector2(input.x * moveSpeed, _rigidbody.linearVelocity.y);
-            if (isOnGround == true)
+            if (AudioManager.Instance.IsPlayerSFXEnd() && Mathf.Abs(this._rigidbody.linearVelocityX) >= 0 && IsGrounded())
+            {
+                AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Run);
+            }
+            if (IsGrounded() == true)
+            {
                 _fsm.ChangeState(new RunState());
+            }    
             return true;
         }
         else
@@ -186,10 +202,11 @@ public class PlayerController : MonoBehaviour
 
     public bool HandleJump()
     {
-        if (jumpPressed && isOnGround)
+        if (jumpPressed && IsGrounded())
         {
             jumpPressed = false;
-            isOnGround = false;
+            AudioManager.Instance.PlayPlayerSFX(AudioClipNames.Jump);
+
             _fsm.ChangeState(new JumpState());
             return true;
         }
@@ -241,7 +258,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputValue isJump)
     {
-        if (isOnGround)
+        if (_config.EnableJump == false) return;
+        if (IsGrounded())
         {
             jumpPressed = isJump.isPressed;
         }
@@ -250,7 +268,7 @@ public class PlayerController : MonoBehaviour
     public void OnInteract(InputValue isInteract)
     {
         this.isInteract = isInteract.isPressed;
-        if (isInteract.isPressed)
+        if (isInteract.isPressed && _config.EnableClimb == true)
         {
             isClimbing = this.isInteract && isGrabLadder;
             Debug.Log("Interacted. IsClimbing = " + isClimbing.ToString());
@@ -260,6 +278,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnShootPortalMode(InputValue isShootPortalMode)
     {
+        if(_config.EnableShootMode == false) return;
         if (isShootPortalMode.isPressed)
         {
             inShootPortalMode = !(inShootPortalMode);
@@ -280,15 +299,48 @@ public class PlayerController : MonoBehaviour
         {
             rightShootClicked = true;
         }    
-    }    
+    }
 
     // =========== Collision ================
+
+    Vector2 boxSize = new Vector2(0.6f, 0.1f);
+    Vector3 boxCenterOffset = Vector3.down * 0.515f;
+
+    public bool IsGrounded()
+    {
+        Vector2 boxCenter = (Vector2)transform.position + (Vector2) boxCenterOffset;
+
+        Collider2D hit = Physics2D.OverlapBox(
+            boxCenter,
+            boxSize,
+            0f
+        );
+        return hit != null;
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(
+            transform.position + boxCenterOffset,
+            boxSize
+        );
+    }
+
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(Tags.Ground))
-        {
-            isOnGround = true;
-        }
+        //if (collision.gameObject.CompareTag(Tags.Ground))
+        //{
+        //    foreach (ContactPoint2D contact in collision.contacts)
+        //    {
+        //        if (contact.normal.y > 0.5f)
+        //        {
+        //            isOnGround = true;
+        //            break;
+        //        }
+        //    }
+        //}
     }
 
     private void OnCollisionExit2D(Collision2D collision)

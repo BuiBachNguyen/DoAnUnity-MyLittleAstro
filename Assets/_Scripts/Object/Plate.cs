@@ -22,6 +22,7 @@ public class Plate : MonoBehaviour
         isHolding = value;
         anim.SetBool("isPressing", isHolding);
         OnHoldingChanged?.Invoke(isHolding);
+        AudioManager.Instance.PlaySFX(AudioClipNames.Switch);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

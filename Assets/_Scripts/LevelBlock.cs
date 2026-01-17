@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LevelBlock : MonoBehaviour, IPointerClickHandler
+public class LevelBlock : MonoBehaviour, IPointerDownHandler
 {
     public static event Action<int> OnLevelClicked;
 
@@ -37,12 +37,6 @@ public class LevelBlock : MonoBehaviour, IPointerClickHandler
         spriteRenderer.sprite = (isLocking) ? locking : unlocking;
     }    
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (isLocking) return;
-        Debug.Log("LevelBlock clicked: " + levelIndex);
-        OnLevelClicked?.Invoke(levelIndex);
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isLocking) return;
@@ -55,9 +49,17 @@ public class LevelBlock : MonoBehaviour, IPointerClickHandler
                 if (normal.y > 0.5f)
                 {
                     Debug.Log("LevelBlock kicked: " + levelIndex);
+                    AudioManager.Instance.PlaySFX(AudioClipNames.UIButton);
                     OnLevelClicked?.Invoke(levelIndex);
                 }    
             }
         }    
+    }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (isLocking) return;
+        Debug.Log("LevelBlock clicked: " + levelIndex);
+        AudioManager.Instance.PlaySFX(AudioClipNames.UIButton);
+        OnLevelClicked?.Invoke(levelIndex);
     }
 }

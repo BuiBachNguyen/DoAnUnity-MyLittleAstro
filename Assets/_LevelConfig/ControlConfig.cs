@@ -7,6 +7,6 @@ public class ControlConfig : ScriptableObject
     public bool EnableRight = true;
     public bool EnableJump = true;
     public bool EnableClimb = true;
-    public bool EnableDash = true;
+    public bool EnableShootMode = true;
 
 }

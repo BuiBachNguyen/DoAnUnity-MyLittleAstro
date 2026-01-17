@@ -21,7 +21,7 @@ public class RunState : FSMState
         {
             ChangeState(new IdleState());
         }
-        if(player.IsOnGround == false)
+        if(player.IsGrounded() == false)
         {
             ChangeState(new FallState());
         }

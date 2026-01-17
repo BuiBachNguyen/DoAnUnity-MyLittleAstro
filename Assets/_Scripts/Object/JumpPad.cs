@@ -19,7 +19,7 @@ public class JumpPad : MonoBehaviour
         _rb.linearVelocity = new Vector2(0, 0);
         _rb.AddForce(new Vector2 (0.0f, boostForce), ForceMode2D.Impulse);
         anim.SetTrigger("Triggered");
-
+        AudioManager.Instance.PlaySFX(AudioClipNames.JumpPad);
     }
 
 }
