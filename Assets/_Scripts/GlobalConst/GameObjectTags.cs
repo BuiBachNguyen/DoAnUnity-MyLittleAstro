@@ -6,4 +6,5 @@ public static class Tags
     public static string Player = "Player";
     public static string Ladder = "Ladder";
     public static string Lever = "Lever";
+    public static string MoveableObject = "MoveableObject";
 }

@@ -27,7 +27,7 @@ public class BreakablePlatform : MonoBehaviour
     {
         // 1
         state = PlatformState.Triggered;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         // 2
         state = PlatformState.Breaking;
@@ -38,7 +38,7 @@ public class BreakablePlatform : MonoBehaviour
 
         // 3
         state = PlatformState.Recovery;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
 
         // 4. Recovering
