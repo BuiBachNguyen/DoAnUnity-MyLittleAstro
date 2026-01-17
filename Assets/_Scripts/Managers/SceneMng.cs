@@ -54,8 +54,8 @@ public class SceneMng : MonoBehaviour
     }
     public void GoToSelectLevel()
     {
-        Debug.Log("Load with index" + 3);
-        ExitTransition.LevelIndex = 3; // 30 level. 
+        Debug.Log("Load with index" + 17);
+        ExitTransition.LevelIndex = 17; // 16 level. 
         ExitTransitionContainer.SetActive(true);
     }
     public void LoadSceneWithIndex(int index)

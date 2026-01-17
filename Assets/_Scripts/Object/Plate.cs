@@ -27,16 +27,22 @@ public class Plate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        SetHolding(true);
+        if (collision.gameObject.CompareTag(Tags.Player)
+            || collision.gameObject.CompareTag(Tags.MoveableObject))
+            SetHolding(true);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        SetHolding(true);
+        if (collision.gameObject.CompareTag(Tags.Player)
+            || collision.gameObject.CompareTag(Tags.MoveableObject))
+            SetHolding(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        SetHolding(false);
+        if (collision.gameObject.CompareTag(Tags.Player)
+            || collision.gameObject.CompareTag(Tags.MoveableObject))
+            SetHolding(false);
     }
 }
