@@ -2,11 +2,13 @@
 
 public class DialogueTester : MonoBehaviour
 {
-    public DialogueManager manager;
-    public DialogueNode startNode;
+    [SerializeField] DialogueManager manager;
+    [SerializeField] DialogueNode startNode;
+    [SerializeField] GameObject MainUIPanel;
 
     void Start()
     {
         manager.StartDialogue(startNode);
+        MainUIPanel.SetActive(false);
     }
 }

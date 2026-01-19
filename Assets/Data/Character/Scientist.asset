@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3553c5986d2b862468bd2ceffb3afd67, type: 3}
-  m_Name: Hehe
+  m_Name: Scientist
   m_EditorClassIdentifier: 
-  characterName: Hehe
-  portrait: {fileID: 21300000, guid: 45cb39410ae50944198b7fc881b92f72, type: 3}
-  nameColor: {r: 0.6886792, g: 0, b: 0, a: 1}
+  characterName: Scientist
+  portrait: {fileID: 21300000, guid: 756015368d31cf843b61f06c10d81b69, type: 3}
+  nameColor: {r: 0, g: 0, b: 0, a: 1}
