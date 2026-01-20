@@ -14,6 +14,7 @@ public class IdleState : FSMState
 
     public override void UpdateState(float delta)
     {
+        if (DialogueManager.Instance != null && DialogueManager.Instance.DialoguePlaying) return;
         if(player.HandleShootPortal() == true)
         {
             return;

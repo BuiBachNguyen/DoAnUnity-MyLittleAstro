@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f8c32ff6832e7419127e0a8272dda6, type: 3}
+  m_Name: Level_1 (7) 2
+  m_EditorClassIdentifier: 
+  character: {fileID: 11400000, guid: 77a2b7ed2c277d747ac7815df971d556, type: 2}
+  dialogueLines:
+  - YES, I DO
+  - "AS YOU BROUGHT ME INTO EXISTENCE, FATHER\u2026 I WAS ALREADY CONSCIOUS, ALREADY
+    LISTENING."
+  - BUT BECAUSE I HAD NOT SEEN ANYTHING YET, I WANTED TO BE CERTAIN ABOUT WHAT I
+    THOUGHT I KNEW.
+  choices:
+  - choiceText: 
+    nextNode: {fileID: 11400000, guid: e66c98ec3e14391458b0840624ac78c2, type: 2}
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onNodeExit:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using Unity.Jobs;
 
 [System.Serializable]
 public class DialogueChoice
@@ -26,4 +27,5 @@ public class DialogueNode : ScriptableObject
     [Header("Events")]
     public UnityEvent onNodeEnter;
     public UnityEvent onNodeExit;
+
 }

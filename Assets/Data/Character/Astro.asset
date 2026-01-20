@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Astro
   m_EditorClassIdentifier: 
   characterName: Astro
-  portrait: {fileID: 21300000, guid: 45cb39410ae50944198b7fc881b92f72, type: 3}
-  nameColor: {r: 1, g: 1, b: 1, a: 1}
+  portrait: {fileID: 21300000, guid: 8a1b7c85af145534ab979bc9846a0630, type: 3}
+  nameColor: {r: 0, g: 0, b: 0, a: 1}

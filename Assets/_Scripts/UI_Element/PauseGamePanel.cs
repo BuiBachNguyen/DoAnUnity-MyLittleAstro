@@ -6,7 +6,12 @@ public class PauseGamePanel : MonoBehaviour
     [Header("Reference Panel")]
     [SerializeField] GameObject OptionPanel;
     [SerializeField] GameObject MainPanel;
+    [SerializeField] GameObject CRT_effect;
 
+    private void Start()
+    {
+        CRT_effect.SetActive(PlayerPrefs.GetInt("CRT_Effect", 1) == 1? true : false);
+    }
 
     public void PauseGame()
     {
@@ -38,4 +43,5 @@ public class PauseGamePanel : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioClipNames.UIButton);
     }    
+
 }

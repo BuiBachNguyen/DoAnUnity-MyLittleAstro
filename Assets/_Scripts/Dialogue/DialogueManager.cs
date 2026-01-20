@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using TMPro; 
+using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEditor.Experimental.GraphView;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -12,20 +13,30 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public Image portraitImage;
     public GameObject dialoguePanel;
-    public Transform choiceContainer; 
+    public Transform choiceContainer;
+
+    [Header("MAIN UI PANEL")]
+    [SerializeField] GameObject MainUIPanel;
 
     [Header("Prefabs")]
-    public GameObject choiceButtonPrefab; 
+    public GameObject choiceButtonPrefab;
 
     [Header("Settings")]
     public float typingSpeed = 0.05f;
     public float autoPlayDelay = 2f;
 
     private DialogueNode currentNode;
-    private int lineIndex; 
+    private int lineIndex;
     private bool isTyping = false;
     private bool isAutoPlay = false;
     private bool isShowingChoices = false;
+    private bool dialoguePlaying = false;
+    public bool DialoguePlaying
+    {
+        get {return dialoguePlaying;}
+    }
+
+
     private Coroutine typingCoroutine;
 
     [Header("Input System")]
@@ -35,6 +46,19 @@ public class DialogueManager : MonoBehaviour
     public float fadeDuration = 0.5f;
 
     private CharacterData lastCharacter;
+
+    public static DialogueManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void OnEnable()
     {
@@ -73,6 +97,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueNode startNode)
     {
         dialoguePanel.SetActive(true);
+        dialoguePlaying = true;
         lineIndex = 0;
         DisplayNode(startNode);
     }
@@ -126,8 +151,15 @@ public class DialogueManager : MonoBehaviour
         {
             if (currentNode.choices.Count > 0)
             {
-                isShowingChoices = true;
-                ShowChoices();
+                if (currentNode.choices[0].choiceText == "")
+                {
+                    OnChoiceSelected(currentNode.choices[0]);
+                }
+                else
+                {
+                    isShowingChoices = true;
+                    ShowChoices();
+                }
             }
             else
             {
@@ -232,6 +264,8 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         dialoguePanel.SetActive(false);
+        MainUIPanel.SetActive(true);
+        dialoguePlaying = false;
         portraitImage.DOKill();
         lastCharacter = null;
     }
