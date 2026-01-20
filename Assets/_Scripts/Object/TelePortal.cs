@@ -27,6 +27,7 @@ public class TelePortal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (other == null) return;
         if (collision.gameObject.CompareTag(Tags.Player))
         {
             if (Vector2.Distance(transform.position, player.transform.position) > 0.3f)

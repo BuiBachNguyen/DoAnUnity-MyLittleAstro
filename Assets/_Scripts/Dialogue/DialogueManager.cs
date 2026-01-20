@@ -30,6 +30,13 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;
     private bool isAutoPlay = false;
     private bool isShowingChoices = false;
+    private bool dialoguePlaying = false;
+    public bool DialoguePlaying
+    {
+        get {return dialoguePlaying;}
+    }
+
+
     private Coroutine typingCoroutine;
 
     [Header("Input System")]
@@ -90,6 +97,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueNode startNode)
     {
         dialoguePanel.SetActive(true);
+        dialoguePlaying = true;
         lineIndex = 0;
         DisplayNode(startNode);
     }
@@ -257,6 +265,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialoguePanel.SetActive(false);
         MainUIPanel.SetActive(true);
+        dialoguePlaying = false;
         portraitImage.DOKill();
         lastCharacter = null;
     }

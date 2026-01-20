@@ -19756,6 +19756,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 884212627206722295, guid: b619cfb0777a9c0498d7564d2f755381, type: 3}
+      propertyPath: CRT_effect
+      value: 
+      objectReference: {fileID: 2048438495}
     - target: {fileID: 2746492715827618749, guid: b619cfb0777a9c0498d7564d2f755381, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
